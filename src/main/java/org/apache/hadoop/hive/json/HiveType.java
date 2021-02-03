@@ -24,7 +24,7 @@ import java.io.PrintStream;
  * The internal representation of what we have discovered about a given
  * field's type.
  */
-abstract class HiveType {
+public abstract class HiveType {
   enum Kind {
     NULL(0),
     BOOLEAN(1),

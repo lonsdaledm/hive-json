@@ -53,7 +53,7 @@ public class JsonSchemaFinder {
   static final BigInteger MIN_LONG = new BigInteger("-9223372036854775808");
   static final BigInteger MAX_LONG = new BigInteger("9223372036854775807");
 
-  static HiveType pickType(JsonElement json) {
+  public static HiveType pickType(JsonElement json) {
     if (json.isJsonPrimitive()) {
       JsonPrimitive prim = (JsonPrimitive) json;
       if (prim.isBoolean()) {
@@ -133,7 +133,7 @@ public class JsonSchemaFinder {
     }
   }
 
-  static HiveType mergeType(HiveType previous, HiveType type) {
+  public static HiveType mergeType(HiveType previous, HiveType type) {
     if (previous == null) {
       return type;
     } else if (type == null) {
@@ -150,7 +150,7 @@ public class JsonSchemaFinder {
     return previous;
   }
 
-  static void printType(PrintStream out, HiveType type, int margin) {
+  public static void printType(PrintStream out, HiveType type, int margin) {
     if (type == null) {
       out.print("void");
     } else if (type.kind.isPrimitive) {
@@ -158,7 +158,7 @@ public class JsonSchemaFinder {
     } else {
       switch (type.kind) {
         case STRUCT:
-          out.println("struct <");
+          out.println("struct<");
           boolean first = true;
           for(Map.Entry<String, HiveType> field:
               ((StructType) type).fields.entrySet()) {
@@ -171,18 +171,18 @@ public class JsonSchemaFinder {
               out.print(' ');
             }
             out.print(field.getKey());
-            out.print(": ");
+            out.print(":");
             printType(out, field.getValue(), margin + INDENT);
           }
           out.print(">");
           break;
         case LIST:
-          out.print("array <");
+          out.print("array<");
           printType(out, ((ListType) type).elementType, margin + INDENT);
           out.print(">");
           break;
         case UNION:
-          out.print("uniontype <");
+          out.print("uniontype<");
           first = true;
           for(HiveType child: ((UnionType) type).children) {
             if (!first) {

@@ -93,16 +93,16 @@ public class TestJsonSchemaFinder {
     assertEquals("bigint",
         JsonSchemaFinder.pickType(new JsonPrimitive
             (new LazilyParsedNumber("9223372036854775807"))).toString());
-    assertEquals("decimal(19,0)",
+    assertEquals("decimal",
         JsonSchemaFinder.pickType(new JsonPrimitive
             (new LazilyParsedNumber("9223372036854775808"))).toString());
-    assertEquals("decimal(19,0)",
+    assertEquals("decimal",
         JsonSchemaFinder.pickType(new JsonPrimitive
             (new LazilyParsedNumber("-9223372036854775809"))).toString());
-    assertEquals("decimal(10,6)",
+    assertEquals("decimal",
         JsonSchemaFinder.pickType(new JsonPrimitive
             (new LazilyParsedNumber("1234.567890"))).toString());
-    assertEquals("decimal(20,10)",
+    assertEquals("decimal",
         JsonSchemaFinder.pickType(new JsonPrimitive
             (new LazilyParsedNumber("-1234567890.1234567890"))).toString());
     assertEquals("float",
@@ -217,7 +217,7 @@ public class TestJsonSchemaFinder {
         new NumericType(HiveType.Kind.INT, 6, 0),
         new NumericType(HiveType.Kind.LONG, 10, 0)
         ).toString());
-    assertEquals("decimal(20,0)", JsonSchemaFinder.mergeType(
+    assertEquals("decimal", JsonSchemaFinder.mergeType(
         new NumericType(HiveType.Kind.SHORT, 4, 0),
         new NumericType(HiveType.Kind.DECIMAL, 20, 0)
         ).toString());
@@ -229,7 +229,7 @@ public class TestJsonSchemaFinder {
         new NumericType(HiveType.Kind.DOUBLE, 31, 4),
         new NumericType(HiveType.Kind.DECIMAL, 20, 10)
         ).toString());
-    assertEquals("uniontype<decimal(30,10),string>", JsonSchemaFinder.mergeType(
+    assertEquals("uniontype<decimal,string>", JsonSchemaFinder.mergeType(
         new NumericType(HiveType.Kind.DECIMAL, 20, 10),
         new StringType(HiveType.Kind.STRING)
         ).toString());
@@ -241,7 +241,7 @@ public class TestJsonSchemaFinder {
         new NumericType(HiveType.Kind.SHORT, 4, 0),
         new ListType(new NumericType(HiveType.Kind.INT, 5, 0))
         ).toString());
-    assertEquals("uniontype<decimal(20,0),string>", JsonSchemaFinder.mergeType(
+    assertEquals("uniontype<decimal,string>", JsonSchemaFinder.mergeType(
         new UnionType()
             .addType(new NumericType(HiveType.Kind.INT, 5, 0))
             .addType(new StringType(HiveType.Kind.STRING)),
@@ -320,7 +320,7 @@ public class TestJsonSchemaFinder {
 
   @Test
   public void testUnionMerges() throws Exception {
-    assertEquals("uniontype<decimal(15,10),boolean,string>", JsonSchemaFinder.mergeType(
+    assertEquals("uniontype<decimal,boolean,string>", JsonSchemaFinder.mergeType(
         new UnionType()
             .addType(new NumericType(HiveType.Kind.DECIMAL, 2, 10))
             .addType(new BooleanType())

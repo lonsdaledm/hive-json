@@ -25,7 +25,7 @@ import java.util.TreeMap;
 /**
  * Model structs.
  */
-class StructType extends HiveType {
+public class StructType extends HiveType {
   final Map<String, HiveType> fields = new TreeMap<String, HiveType>();
 
   StructType() {
@@ -53,6 +53,10 @@ class StructType extends HiveType {
   public StructType addField(String name, HiveType fieldType) {
     fields.put(name, fieldType);
     return this;
+  }
+
+  public Map<String, HiveType> getFields() {
+    return fields;
   }
 
   @Override

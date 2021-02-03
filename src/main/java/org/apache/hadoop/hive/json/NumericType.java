@@ -60,7 +60,7 @@ class NumericType extends HiveType {
       case LONG:
         return "bigint";
       case DECIMAL:
-        return "decimal(" + (intDigits + scale) + "," + scale + ")";
+        return "decimal";
       case FLOAT:
         return "float";
       case DOUBLE:
