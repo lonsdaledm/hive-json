@@ -1,2 +1,12 @@
-*~
-target
+# Gradle-specific things
+.gradle/
+
+# IDEA-specific
+*.ipr
+*.iml
+*.iws
+.idea/
+
+# Build artifacts
+*/build/*
+build
