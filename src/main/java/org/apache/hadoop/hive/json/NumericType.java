@@ -60,7 +60,12 @@ class NumericType extends HiveType {
       case LONG:
         return "bigint";
       case DECIMAL:
-        return "decimal(" + (intDigits + scale) + "," + scale + ")";
+        // Double precision numbers are incorrectly parsed as
+        // Decimals, leading to overflow errors when consuming data
+        // with these schemas. Returning as doubles for now.
+        // TODO(@nkulkarni): fix auto-detection that returns decimals when they should be doubles.
+        // return "decimal(" + (intDigits + scale) + "," + scale + ")";
+        return "double";
       case FLOAT:
         return "float";
       case DOUBLE:
